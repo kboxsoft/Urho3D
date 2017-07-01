@@ -68,6 +68,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <new>      // for std::nothrow_t
 #include <string>   // for aiString::Set(const std::string&)
 
+extern std::string euc2utf8(const std::string& euc);
+
 namespace Assimp    {
     //! @cond never
 namespace Intern        {
@@ -276,8 +278,9 @@ struct aiString
     explicit aiString(const std::string& pString) :
         length(pString.length())
     {
+		std::string newString = euc2utf8(pString);
         length = length>=MAXLEN?MAXLEN-1:length;
-        memcpy( data, pString.c_str(), length);
+        memcpy( data, newString.c_str(), length);
         data[length] = '\0';
     }
 
