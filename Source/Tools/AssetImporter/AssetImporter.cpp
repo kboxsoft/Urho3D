@@ -44,6 +44,8 @@
 #include <Urho3D/Resource/XMLFile.h>
 #include <Urho3D/Scene/Scene.h>
 
+#define ATOMIC_EXPORT	1
+
 #ifdef WIN32
 #include <windows.h>
 #endif
@@ -1957,7 +1959,11 @@ void BuildAndSaveMaterial(aiMaterial* material, HashSet<String>& usedTextures)
 
     FileSystem* fileSystem = context_->GetSubsystem<FileSystem>();
 
+#if !ATOMIC_EXPORT
     String outFileName = resourcePath_ + (useSubdirs_ ? "Materials/" : "" ) + matName + ".xml";
+#else
+	String outFileName = resourcePath_ + (useSubdirs_ ? "Materials/" : "" ) + matName + ".material";
+#endif
     if (noOverwriteMaterial_ && fileSystem->FileExists(outFileName))
     {
         PrintLine("Skipping save of existing material " + matName);
@@ -2354,7 +2360,11 @@ String GetMeshMaterialName(aiMesh* mesh)
     if (matName.Trimmed().Empty())
         matName = GenerateMaterialName(material);
 
+#if !ATOMIC_EXPORT
     return (useSubdirs_ ? "Materials/" : "") + matName + ".xml";
+#else
+	return (useSubdirs_ ? "Materials/" : "") + matName + ".material";
+#endif
 }
 
 String GenerateMaterialName(aiMaterial* material)
