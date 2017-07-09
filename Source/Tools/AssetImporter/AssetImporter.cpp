@@ -44,7 +44,7 @@
 #include <Urho3D/Resource/XMLFile.h>
 #include <Urho3D/Scene/Scene.h>
 
-#define ATOMIC_EXPORT	1
+#define ATOMIC_EXPORT	0
 
 #ifdef WIN32
 #include <windows.h>
